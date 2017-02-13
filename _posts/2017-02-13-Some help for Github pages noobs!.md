@@ -8,11 +8,8 @@ date: 2017-02-13 11:00:00
 
 I am no computer illiterate. But when I started to create my blog here, I felt like one. The reason? All how-to's and tutorials
 where written either for the complete naive, or the expert in Jekyll and Markdown.. I wasnot either of them. I wanted to use
-Jekyll and the themes provided for a nice blog, I have already used Jekyll in the past to create my 
-[site](http://www.pavlid.is/myprojects/index.html) but I didn't want 
-at this time to recreate and build a Jekyll environment.
-<p>
-I thought that this could be handled by Github and to be concentrated only to my posting pages!
+Jekyll and the themes provided for a nice blog, but whithout the fuss of a local setup, blogging directly via web if possible. I have already used Jekyll in the past to create my 
+[site](http://www.pavlid.is/myprojects/index.html), but wanted something simpler for now. I thought that this could be handled by Github and to be concentrated only to my posting pages!
 <p>
 It wasn't so.
 <p>
