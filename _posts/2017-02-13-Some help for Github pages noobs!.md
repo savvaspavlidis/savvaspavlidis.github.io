@@ -2,7 +2,6 @@
 layout: default
 title: Some help for GithubPages noobs!
 date: 2017-02-13 11:00:00
-category: tips
 ---
 
 # Some help for GithubPages noobs!
