@@ -14,7 +14,7 @@ system is an Oracle Database Server, what choises do you have? (it happaned to u
 <p>
 Well, there are plenty of solutions, and the most known (and implemented) are at a hefty price. For example you can have a standby
 system, always ready to take action, when the primary hits the ground, and is made with the optional package 
-[Oracle Data Guard]{https://en.wikipedia.org/wiki/Oracle_Data_Guard). Alas, with a hefty price! First, its available only
+[Oracle Data Guard](https://en.wikipedia.org/wiki/Oracle_Data_Guard). Alas, with a hefty price! First, its available only
 with the Oracle Enterprise Database edition. What about those folks that could not afford the Enterprise edition in the first
 place? Surely Data Guard is out of the question! And change to some other, in the open source realm, database, like say PostgreSQL
 maybe also out of the question if the application used has a lot of the intricacies of Oracle, or logic in the database in 
