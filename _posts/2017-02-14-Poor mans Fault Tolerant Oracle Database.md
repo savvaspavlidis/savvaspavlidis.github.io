@@ -40,8 +40,8 @@ build on Linux Operating System (64bit), and specifically Centos 6.X (Redhat clo
 4. Installation of Database software via response file (unattended)
 5. DRBD configuration 
 6. Test the configuration in a simulated massive failure
-
-Wait for the posts....
-
+<p>
+Wait for the posts. Be patient, as time is scarce resource.
+<p>
 PS. This post(and future posts too) may change in time, because it is also to keep it as a tutorial. 
-Any feedback would be highly appreciated. Only time is a scarce resource. Patience.
+Any feedback would be highly appreciated. 
