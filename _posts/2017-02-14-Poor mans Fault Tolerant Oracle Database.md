@@ -34,12 +34,12 @@ do the recovery on files needed, but about this later)
 This is a project that it will be covered in a series of posts. Our server is a standalone, not a VM machine. Our servers are
 build on Linux Operating System (64bit), and specifically Centos 6.X (Redhat clone). 
 
-1. Tntroduction 
-2. Make the infrastrure for the almost unattended install
+1. Introduction 
+2. Infrastrucure required
 3. Installation of Operating system via kickstart (unattended)
 4. Installation of Database software via response file (unattended)
 5. DRBD configuration 
-6. Test the configuration in a simulated massive failure
+6. Simulating a real disaster - Testing fault tolerance
 <p>
 Wait for the posts. Be patient, as time is scarce resource.
 <p>
