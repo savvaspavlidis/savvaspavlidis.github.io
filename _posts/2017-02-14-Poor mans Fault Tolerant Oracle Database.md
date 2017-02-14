@@ -25,7 +25,7 @@ So, what is left?
 <p>
 Well, all is not lost. If we can't use DataGuard, then surely we can use some other mechanism to have an ALMOST fault tolerant system. The main idea is to have the main production system, with the database, replicated to another, almost same server (same architecture). It may be of lesser capacity, and in that case, in case of emergency we can allow only the most critical services to be used on this standby system. If we can afford the same hardware, then ofcourse the standby system could handle all the load as the normal production server. The only downside in the case of emergency would be the time to startup the database on the standby system (and do the recovery on files needed, but about this later)
 <p>
-# The Solution #
+# The Solution
 <p>
 The solution is based on DRBD, a kind of network RAID, and so we can have a replicated, via network, of our database, to another, working system which is available either locally or somewhere remote (for extra security, provided there is the bandwidth needed). DRBD runs under linux, so our servers are base on Linux, and to be more specific, on Centos 6.X which essentially the same as Redhat (the same applies to Oracle Linux and Scientific Linux, which are also almost Redhat). In this tutorial I used Oracle 11.0.2.4 for Linux (available thru Metalink if you have an account there) but the same applies to newer editions. Perhaps later I will try it with Centos 7.X and Oracle 12c.
 <p>
