@@ -2,7 +2,8 @@
 layout: default
 title: Poor man's (almost) Fault Tolerant Oracle Database (part 1)
 date: 2017-02-14 14:00:00
-categories: tutorial
+categories: oracle
+comments: true
 ---
 # Introduction
 Despite the fact that today's hardware (and software) is far better than before, more reliable, still there are the cases
@@ -47,6 +48,8 @@ Wait for the posts. Be patient, as time is scarce resource.
 PS. This post(and future posts too) may change in time, because it is also to keep it as a tutorial. 
 Any feedback would be highly appreciated. 
 
+
+{% if page.comments %}
 <div id="disqus_thread"></div>
 <script>
     
@@ -58,11 +61,11 @@ Any feedback would be highly appreciated.
     (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
         var d = document, s = d.createElement('script');
         
-        s.src = '//savvas_pavlidis.disqus.com/embed.js';  // IMPORTANT: Replace EXAMPLE with your forum shortname!
+        s.src = '//savvaspavlidis.disqus.com/embed.js';  // IMPORTANT: Replace EXAMPLE with your forum shortname!
         
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-
+{% endif %}
