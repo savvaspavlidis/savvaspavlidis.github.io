@@ -49,6 +49,7 @@ PS. This post(and future posts too) may change in time, because it is also to ke
 Any feedback would be highly appreciated. 
 
 "{{ page.url }}"
+
 "{{ page.id }}"
 
 {% if page.comments %}
