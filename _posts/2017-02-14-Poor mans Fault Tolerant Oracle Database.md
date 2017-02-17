@@ -46,3 +46,23 @@ Wait for the posts. Be patient, as time is scarce resource.
 
 PS. This post(and future posts too) may change in time, because it is also to keep it as a tutorial. 
 Any feedback would be highly appreciated. 
+
+
+{% if page.comments %}
+<div id="disqus_thread"></div>
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'savvas_pavlidis'; // required: replace example with your forum shortname
+        var disqus_developer = 1; 
+        var disqus_identifier = "{{ page.url }}";
+
+        
+        (function() {
+            var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+{% endif %}
