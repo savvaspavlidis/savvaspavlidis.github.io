@@ -61,7 +61,7 @@ Any feedback would be highly appreciated.
   };
   (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
-    s.src = '//savvaspavlidis.disqus.com/embed.js';
+    s.src = '//savvaspavlidis..disqus.com/embed.js';
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
 })();
