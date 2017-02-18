@@ -49,9 +49,6 @@ Wait for the posts. Be patient, as time is scarce resource.
 PS. This post(and future posts too) may change in time, because it is also to keep it as a tutorial. 
 Any feedback would be highly appreciated. 
 
-"{{ page.url }}"
-
-"{{ page.disqus_identifier }}"
 
 <div id="disqus_thread"></div>
 <script>
