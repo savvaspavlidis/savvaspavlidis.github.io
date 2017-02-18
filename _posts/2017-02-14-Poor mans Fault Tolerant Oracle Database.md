@@ -53,8 +53,9 @@ Any feedback would be highly appreciated.
 {% if page.comments %}
 <div id="disqus_thread"></div>
     <script type="text/javascript">
-        var disqus_shortname = 'savvaspavlidis'; 
-        var disqus_developer = 1; 
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'perfectlyrandom'; // required: replace example with your forum shortname
+        // var disqus_developer = 1; // Comment out when the site is live
         var disqus_identifier = "{{ page.url }}";
 
         /* * * DON'T EDIT BELOW THIS LINE * * */
@@ -67,3 +68,4 @@ Any feedback would be highly appreciated.
     <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 {% endif %}
+
