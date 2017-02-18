@@ -53,7 +53,7 @@ Any feedback would be highly appreciated.
 {% if page.comments %}
 <div id="disqus_thread"></div>
     <script type="text/javascript">
-        var disqus_shortname = 'savvaspavlidiss'; 
+        var disqus_shortname = 'savvaspavlidis'; 
         var disqus_developer = 1; 
         var disqus_identifier = "{{ page.url }}";
 
