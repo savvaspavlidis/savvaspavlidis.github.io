@@ -56,12 +56,12 @@ Any feedback would be highly appreciated.
 <div id="disqus_thread"></div>
 <script>
   var disqus_config = function () {
-    this.page.url = "{{ page.url }}";
+    this.page.url = "{{ page.url | prepend: site.url }}";
     this.page.identifier = "{{ page.disqus_identifier }}"; 
   };
   (function() { // DON'T EDIT BELOW THIS LINE
     var d = document, s = d.createElement('script');
-    s.src = '//savvaspavlidis..disqus.com/embed.js';
+    s.src = '//savvaspavlidis.disqus.com/embed.js';
     s.setAttribute('data-timestamp', +new Date());
     (d.head || d.body).appendChild(s);
 })();
