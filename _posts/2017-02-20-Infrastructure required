@@ -1,0 +1,11 @@
+In order to have a system that would boot and install itself with the minimum of a sysadmin intervention, we would need:
+
+1. DHCP Server
+2. TFTP Server
+3. An anonymous FTP (or HTTP Server)
+
+## DHCP Server
+
+The reason behind this setup is to have the capability to boot and install the system, even wheh we are not present at the machine. Thus the machine should boot by network as a first option and this should have been configured in BIOS. It adds about half a minute in the boot procedure, but we don't boot very often our linux machines, dont we?
+First Step. The machine should be configured to boot first by network (to avoid the case that it has an already bootable hard disk or some other media (bootable CD/DVD etc)
+
