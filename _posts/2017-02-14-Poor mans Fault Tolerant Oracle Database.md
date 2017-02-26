@@ -38,7 +38,7 @@ To make matter more interesting I made the whole system to install with the mini
 This would be a series of posts for this project, and most of it is already done, but now waits, to be documented here, and refined somehow.
 
   1. Introduction 
-  2. Infrastrucure required
+  2. Infrastructure
   3. Installation of Operating system via kickstart (unattended)
   4. Installation of Database software via response file (unattended)
   5. DRBD configuration 
