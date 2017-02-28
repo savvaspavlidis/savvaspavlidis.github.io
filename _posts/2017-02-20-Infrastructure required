@@ -1,3 +1,12 @@
+---
+layout: default
+title: Poor man's (almost) Fault Tolerant Oracle Database (part 2) - Infrastructure
+date: 2017-02-28 14:00:00
+categories: oracle
+comments: true
+disqus_identifier: 0003
+---
+
 In order to have a system that would boot and install itself with the minimum of a sysadmin intervention, we would need:
 
 1. DHCP Server
