@@ -6,6 +6,14 @@ In order to have a system that would boot and install itself with the minimum of
 
 ## DHCP Server
 
-The reason behind this setup is to have the capability to boot and install the system, even wheh we are not present at the machine. Thus the machine should boot by network as a first option and this should have been configured in BIOS. It adds about half a minute in the boot procedure, but we don't boot very often our linux machines, dont we?
+The reason behind this setup is to have the capability to boot and install the system, even wheh we are not present at the machine (someone might be needed though). 
+
+Someone is needed to press the button to start the machine (there is always ofcourse the option of WOL, or if you can have a system that can be managed sideways, for example with iLO or IBM's, that's even better). There is a catch here, that I will explain later. What we need is to start via network (PXE BOOT). Either the machine is configured already to boot first by network (in BIOS, or by remote management), or someone there would select the boot option device manually.
+
+Thus the machine should boot by network as a first option and this should have been configured in BIOS. It adds about half a minute in the boot procedure, but we don't boot very often our linux machines, dont we?
 First Step. The machine should be configured to boot first by network (to avoid the case that it has an already bootable hard disk or some other media (bootable CD/DVD etc)
 
+## TFTP
+
+The need for a TFTP server is because immediately after booting from PXE, from here it will download the needed parts to proceed to the actual install.
+I am using a Centos server, so this [tutorial](http://www.bo-yang.net/2015/08/31/centos7-install-tftp-server) might be of help for everyone who would like to setup a TFTP Server. 
