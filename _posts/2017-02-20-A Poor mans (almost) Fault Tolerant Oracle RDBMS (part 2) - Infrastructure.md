@@ -13,7 +13,7 @@ In order to have a system that would boot and install itself with the minimum of
 2. TFTP Server
 3. An anonymous FTP (or HTTP Server)
 
-## DHCP Server
+## DHCP Server & DNS Server
 
 The reason behind this setup is to have the capability to boot and install the system, even wheh we are not present at the machine (someone might be needed though). 
 
@@ -21,6 +21,17 @@ Someone is needed to press the button to start the machine (there is always ofco
 
 Thus the machine should boot by network as a first option and this should have been configured in BIOS. It adds about half a minute in the boot procedure, but we don't boot very often our linux machines, dont we?
 First Step. The machine should be configured to boot first by network (to avoid the case that it has an already bootable hard disk or some other media (bootable CD/DVD etc)
+
+So a DHCP server is needed, and the dhcp server in small routers like home ADSL routers would not suffice. Also a DNS server is needed, mostyly because the Oracle requires a static IP and to be resolved via DNS, otherwise will complain and not install (or install via ignoring system prerequisites).
+
+As we are working with Linux systems surely the most easy way is to make a DHCP Server on a Linux box. The same applies for he DNS Server, and may be on the same machine. Because as I said before we need a static IP address to be resolved via DNS, this means that we should instruct the DHCP Server likewise. We must have the MAC Address of the ethernet port, and on the dhcpd.conf file (/etc/dhcpd/dhcpd.conf on RHEL like systems) we put the following fragment in the pool
+'''
+                host oratest1.the.yalco.gr {
+                        hardware ethernet 08:00:27:61:96:bc;
+                        fixed-address 10.1.1.129;
+                        ddns-hostname "oratest1";
+                }
+'''
 
 
 [tutorial](https://tecadmin.net/configuring-dhcp-server-on-centos-redhat/#)
