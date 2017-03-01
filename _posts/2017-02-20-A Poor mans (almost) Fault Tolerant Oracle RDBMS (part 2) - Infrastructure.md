@@ -25,13 +25,13 @@ First Step. The machine should be configured to boot first by network (to avoid 
 So a DHCP server is needed, and the dhcp server in small routers like home ADSL routers would not suffice. Also a DNS server is needed, mostyly because the Oracle requires a static IP and to be resolved via DNS, otherwise will complain and not install (or install via ignoring system prerequisites).
 
 As we are working with Linux systems surely the most easy way is to make a DHCP Server on a Linux box. The same applies for he DNS Server, and may be on the same machine. Because as I said before we need a static IP address to be resolved via DNS, this means that we should instruct the DHCP Server likewise. We must have the MAC Address of the ethernet port, and on the dhcpd.conf file (/etc/dhcpd/dhcpd.conf on RHEL like systems) we put the following fragment in the pool
-'''
+~~~
                 host oratest1.the.yalco.gr {
                         hardware ethernet 08:00:27:61:96:bc;
                         fixed-address 10.1.1.129;
                         ddns-hostname "oratest1";
                 }
-'''
+~~~
 
 
 [tutorial](https://tecadmin.net/configuring-dhcp-server-on-centos-redhat/#)
