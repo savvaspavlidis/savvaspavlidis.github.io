@@ -24,22 +24,23 @@ First Step. The machine should be configured to boot first by network (to avoid 
 
 So a DHCP server is needed, and the dhcp server in small routers like home ADSL routers would not suffice. Also a DNS server is needed, mostyly because the Oracle requires a static IP and to be resolved via DNS, otherwise will complain and not install (or install via ignoring system prerequisites).
 
-As we are working with Linux systems surely the most easy way is to make a DHCP Server on a Linux box. The same applies for he DNS Server, and may be on the same machine. Because as I said before we need a static IP address to be resolved via DNS, this means that we should instruct the DHCP Server likewise. We must have the MAC Address of the ethernet port, and on the dhcpd.conf file (/etc/dhcpd/dhcpd.conf on RHEL like systems) we put the following fragment in the pool
+As we are working with Linux systems surely the most easy way is to make a DHCP Server on a Linux box. The same applies for he DNS Server, and may be on the same machine. Because as I said before we need a static IP address to be resolved via DNS, this means that we should instruct the DHCP Server likewise. We must have the MAC Address of the ethernet port, and on the dhcpd.conf file (/etc/dhcpd/dhcpd.conf on RHEL like systems) we put the following fragment in the pool.
 
-                host myserver.example.com {
+Here in our example, the server is oratest1, the domain is example.com, our subnet is 10.1.1.0/24, and the server's oratest1 IP should be 10.1.1.129
+
+                host oratest1.example.com {
                         hardware ethernet 08:00:27:61:96:bc;
                         fixed-address 10.1.1.129;
-                        ddns-hostname "myserver";
+                        ddns-hostname "oratest1";
                 }
                 
-Where as myserver.example.com is the complete hostname, we instruct DHCP to update DNS via the ddns-hostname, the hardware ethernet address is the MAC of our ethernet adapter of our server (we must know that) and the fixed address is what IP it should take. 
 
-Also in the dhcpd.conf file we should give the following directives, before the enclosing parenthesis of the dhcpd.conf for the pool, that instructs whenever some machine wants to boot via PXE, where is the next server, to load the files needed (it may be the same machine as the DHCP/DNS Server). The next machine, needs to provide TFTP service and the needed files, described next.
+Also in the dhcpd.conf file we should give the following directives, before the enclosing parenthesis of the dhcpd.conf for the pool that instructs whenever some machine wants to boot via PXE, where is the next server, to load the files needed (it may be the same machine as the DHCP/DNS Server). The next machine, needs to provide TFTP service and the needed files, described next.
 
         filename "pxelinux.0";
         next-server 10.1.1.10;
 
-A complete dhcpd.conf file, that it may be needed to change according to your needs is provided below 
+A more complete simpe example dhcpd.conf file, that it may be needed to change according to your needs is provided below 
 
 ~~~
     authoritative;
@@ -78,9 +79,10 @@ A complete dhcpd.conf file, that it may be needed to change according to your ne
   }       
 ~~~
 
-Visit this [tutorial](https://tecadmin.net/configuring-dhcp-server-on-centos-redhat/#) for a simple installation and configuration on RHEL clone systems. 
+Visit this [tutorial](https://tecadmin.net/configuring-dhcp-server-on-centos-redhat/#) for a simple installation and configuration on RHEL clone systems of a DHCP server. 
 
 ## TFTP
 
-The need for a TFTP server is because immediately after booting from PXE, from here it will download the needed parts to proceed to the actual install.
-I am using a Centos server, so this [tutorial](http://www.bo-yang.net/2015/08/31/centos7-install-tftp-server) might be of help for everyone who would like to setup a TFTP Server. 
+The need for a TFTP server is because immediately after booting from PXE, from here it will download the needed parts to proceed to the actual boot (and install). By booting via network with PXE, its like to boot with a CD, only it exists somewhere in the network. This makes maintenance easier, because you can make a remote boot, and have all needed CD's for maintenance or installing operating system available thru network.
+
+I am using a Centos server, so this [tutorial](http://www.bo-yang.net/2015/08/31/centos7-install-tftp-server) might be of help for everyone who would like to setup a TFTP Server. I have a number of bootable images, GHOST (remember DOS Ghost?), UBCD, Clonezilla, Acronis etc, but I will assume that this is your first attempt, so there would be only the Centos install image. 
