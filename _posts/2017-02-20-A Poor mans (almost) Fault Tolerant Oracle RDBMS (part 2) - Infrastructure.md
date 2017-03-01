@@ -13,7 +13,7 @@ In order to have a system that would boot and install itself with the minimum of
 2. TFTP Server
 3. An anonymous FTP (or HTTP Server)
 
-## DHCP Server & DNS Server
+## DHCP Server 
 
 The reason behind this setup is to have the capability to boot and install the system, even wheh we are not present at the machine (someone might be needed though). 
 
@@ -80,6 +80,11 @@ A more complete simpe example dhcpd.conf file, that it may be needed to change a
 ~~~
 
 Visit this [tutorial](https://tecadmin.net/configuring-dhcp-server-on-centos-redhat/#) for a simple installation and configuration on RHEL clone systems of a DHCP server. 
+
+## DNS Server
+
+In our case, there is a need for DNS Server, as the Oracle installer checks via DNS if the system can be looked up via DNS queries. Although you can skip it, it is not recommended. The DNS server must be authoritative. A simpe authorative solution that accepts requests from the DHCP server would suffice. For a tutorial about installing and configuring a simple DNS Server, you may check this.
+
 
 ## TFTP
 
