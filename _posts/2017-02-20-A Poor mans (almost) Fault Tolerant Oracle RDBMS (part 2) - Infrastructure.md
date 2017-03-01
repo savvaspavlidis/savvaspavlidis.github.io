@@ -26,15 +26,57 @@ So a DHCP server is needed, and the dhcp server in small routers like home ADSL 
 
 As we are working with Linux systems surely the most easy way is to make a DHCP Server on a Linux box. The same applies for he DNS Server, and may be on the same machine. Because as I said before we need a static IP address to be resolved via DNS, this means that we should instruct the DHCP Server likewise. We must have the MAC Address of the ethernet port, and on the dhcpd.conf file (/etc/dhcpd/dhcpd.conf on RHEL like systems) we put the following fragment in the pool
 
-                host oratest1.the.yalco.gr {
+                host myserver.example.com {
+                        hardware ethernet 08:00:27:61:96:bc;
+                        fixed-address 10.1.1.129;
+                        ddns-hostname "myserver";
+                }
+Where as myserver.example.com is the complete hostname, we instruct DHCP to update DNS via the ddns-hostname, the hardware ethernet address is the MAC of our ethernet adapter of our server (we must know that) and the fixed address is what IP it should take. 
+
+Also in the dhcpd.conf file we should give the following directives, before the enclosing parenthesis of the dhcpd.conf for the pool, that instructs whenever some machine wants to boot via PXE, where is the next server, to load the files needed (it may be the same machine as the DHCP/DNS Server). The next machine, needs to provide TFTP service and the needed files, described next.
+
+        filename "pxelinux.0";
+        next-server 10.1.1.10;
+
+A complete dhcpd.conf file, that it may be needed to change according to your needs is provided below 
+
+  authoritative;
+  use-host-decl-names             on;
+  default-lease-time              7200;
+  max-lease-time                  7200;
+  option subnet-mask              255.255.255.0;
+  option broadcast-address        10.1.1.255;
+  option domain-name-servers      10.1.1.6;
+  option domain-name              "example.com";
+  option netbios-node-type        8;
+  option netbios-name-servers     10.1.1.10;
+  ddns-updates                    on;
+  ignore client-updates;
+  ignore declines;
+  ddns-domainname                 "example.com";
+  ddns-rev-domainname            "1.1.10.in-addr.arpa";
+  ddns-update-style               interim;
+  update-static-leases            on;
+  allow booting;
+  allow bootp;
+^
+  subnet 10.1.1.0 netmask 255.255.255.0 {
+        range                           10.1.1.50 10.1.1.254;
+^
+        group {
+                host oratest1.example.com {
                         hardware ethernet 08:00:27:61:96:bc;
                         fixed-address 10.1.1.129;
                         ddns-hostname "oratest1";
                 }
+        }
+        range dynamic-bootp 10.1.1.45 10.1.1.49;
+        filename "pxelinux.0";
+        next-server 10.1.1.10;
+  }       
 
 
-
-[tutorial](https://tecadmin.net/configuring-dhcp-server-on-centos-redhat/#)
+Visit this [tutorial](https://tecadmin.net/configuring-dhcp-server-on-centos-redhat/#) for a simple installation and configuration on RHEL clone systems. 
 
 ## TFTP
 
