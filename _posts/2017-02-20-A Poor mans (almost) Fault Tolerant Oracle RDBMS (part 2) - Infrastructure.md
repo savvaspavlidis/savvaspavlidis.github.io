@@ -42,7 +42,7 @@ Also in the dhcpd.conf file we should give the following directives, before the 
 
 A more complete simpe example dhcpd.conf file, that it may be needed to change according to your needs is provided below 
 
-~~~
+```
     authoritative;
     use-host-decl-names             on;
     default-lease-time              7200;
@@ -77,7 +77,7 @@ A more complete simpe example dhcpd.conf file, that it may be needed to change a
         filename "pxelinux.0";
         next-server 10.1.1.10;
   }       
-~~~
+```
 
 Visit this [tutorial](https://tecadmin.net/configuring-dhcp-server-on-centos-redhat/#) for a simple installation and configuration on RHEL clone systems of a DHCP server. 
 
