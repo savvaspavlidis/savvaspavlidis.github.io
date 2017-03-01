@@ -40,6 +40,7 @@ Also in the dhcpd.conf file we should give the following directives, before the 
 
 A complete dhcpd.conf file, that it may be needed to change according to your needs is provided below 
 
+~~~~~
   authoritative;
   use-host-decl-names             on;
   default-lease-time              7200;
@@ -59,10 +60,10 @@ A complete dhcpd.conf file, that it may be needed to change according to your ne
   update-static-leases            on;
   allow booting;
   allow bootp;
-^
+
   subnet 10.1.1.0 netmask 255.255.255.0 {
         range                           10.1.1.50 10.1.1.254;
-^
+
         group {
                 host oratest1.example.com {
                         hardware ethernet 08:00:27:61:96:bc;
@@ -74,7 +75,7 @@ A complete dhcpd.conf file, that it may be needed to change according to your ne
         filename "pxelinux.0";
         next-server 10.1.1.10;
   }       
-
+~~~~~
 
 Visit this [tutorial](https://tecadmin.net/configuring-dhcp-server-on-centos-redhat/#) for a simple installation and configuration on RHEL clone systems. 
 
