@@ -126,3 +126,21 @@ The myserver.example.com is supposed to be the server, the anonymous ftp server,
 
 The files vmlinuz and initrd.img are residing in the /var/lib/tftpboot directory, in specific directories (if you have a lot of images it may be needed to have them somehow organized). To have them run the following
 
+
+
+
+
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function () {
+    this.page.url = "{{ page.url | prepend: site.url }}";
+    this.page.identifier = "{{ page.disqus_identifier }}"; 
+  };
+  (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//savvaspavlidis.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
