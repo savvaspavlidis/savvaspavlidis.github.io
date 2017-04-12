@@ -73,3 +73,19 @@ A more complete simpe example dhcpd.conf file, that it may be needed to change a
 ```
 
 Visit this [tutorial](https://tecadmin.net/configuring-dhcp-server-on-centos-redhat/#) for a simple installation and configuration on RHEL clone systems of a DHCP server. 
+
+
+<div id="disqus_thread"></div>
+<script>
+  var disqus_config = function () {
+    this.page.url = "{{ page.url | prepend: site.url }}";
+    this.page.identifier = "{{ page.disqus_identifier }}"; 
+  };
+  (function() { // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    s.src = '//savvaspavlidis.disqus.com/embed.js';
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
