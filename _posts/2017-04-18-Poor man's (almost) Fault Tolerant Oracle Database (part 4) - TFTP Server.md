@@ -23,7 +23,7 @@ grep disable /etx/xinetd.d/*
 ```
 The first two perl commands make the appropriate changes to the tftp subservice of the xinetd in order to to be started on demand. The chkconfig make the xinetd service startable upon every boot, and the next starts the service, which will run without problems. The last command is just for precaution. We check that no other xinetd subservice will run, and by greping we must see only the tftp to have the disable option to no.
 
-The installation of syslinux-tftpboot make available the needed files for the network boot. Although a bunch of files would be available in the default directory for tftp, /var/lib/tftpboot we basically at this point we need just pxelinux.0 which is the one used for initial network boot.
+The installation of syslinux-tftpboot makes available the needed files for the network boot. Although a bunch of files would be available in the default directory for tftp, /var/lib/tftpboot we basically at this point we need just pxelinux.0 which is the one used for initial network boot.
 Some other files will also be needed, by the installation files of Centos, and we will copy them here, plus some configuration.
 We need to make a directory for the configuration and inside create the file with the tftp options. Run the following
 ```
@@ -47,7 +47,7 @@ label oratest2
     MENU LABEL oratest2
     KERNEL vmlinuz
     APPEND ks=ftp://myftpserver.example.com/oratest2.ks initrd=initrd.img ramdisk=100000
-EOF
+EOT
 cd ..
 chown -R nobody:nobody *
 ```
