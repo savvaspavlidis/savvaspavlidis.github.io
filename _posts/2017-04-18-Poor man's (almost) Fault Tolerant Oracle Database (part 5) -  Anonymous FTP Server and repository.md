@@ -46,7 +46,7 @@ Use a mirror near you, that has also the rsync option. Here in Greece, I used th
 ## Getting the Oracle installation files
 
 Here things can be quite messy for some. I used the 11.2.0.4 version, which is not available on the OTN but on Metalink. You need to have an account there to download that version, or, you may use the 11.2 version which is available on OTN and modify scripts accordingly.
-Due to the nature of these (I mean Metalink), the download is done manually, and the files are placed on the /home/public/anon directory. Do not unzip them, don't do anything else. 
+Due to the nature of these (I mean Metalink), the download is done manually, and the files are placed on the /home/public/anon directory. Do not unzip them, don't do anything else. Of the 7 files that exist for the 11.2.0.4 version (patchset), we need only the first and second. So you may skip all the other zip files.
 
 Perhaps some will say, that it would be better, to unzip them, and provide the files via NFS for example. If that pleases you, you may do it. I tried to keep it as simple as possible. But this kind of setup is a viable alternatice with its merits.
 
