@@ -32,8 +32,8 @@ In order to have an installation that can be applied again and again, I chose to
 
 This would be a series of posts for this project, and most of it is already done, but now waits, to be documented here, and refined somehow.
 
-  1. Introduction 
-  2. Infrastructure needed
+  1. Introduction
+  2. [Infrastructure](https://savvaspavlidis.github.io/oracle/2017/02/28/A-Poor-mans-(almost)-Fault-Tolerant-Oracle-RDBMS-(part-2)-Infrastructure.html)
   3. DHCP Server
   4. TFTP Server
   5. Anonymous FTP server and Repository
