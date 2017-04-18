@@ -34,13 +34,14 @@ This would be a series of posts for this project, and most of it is already done
 
   1. Introduction
   2. [Infrastructure](https://savvaspavlidis.github.io/oracle/2017/02/28/A-Poor-mans-(almost)-Fault-Tolerant-Oracle-RDBMS-(part-2)-Infrastructure.html)
-  3. DHCP Server
-  4. TFTP Server
-  5. Anonymous FTP server and Repository
-  6. Installation of Operating system via kickstart (unattended)
-  7. Installation of Database software via response file (unattended)
-  8. DRBD configuration 
-  9. Simulating a real disaster - Testing fault tolerance
+  3. [DHCP Server](https://savvaspavlidis.github.io/oracle/2017/04/12/A-Poor-mans-(almost)-Fault-Tolerant-Oracle-RDBMS-(part-3)-DHCP-Server.html)
+  4. [DNS Server](https://savvaspavlidis.github.io/oracle/2017/04/12/A-poor-man's-(almost)-Fault-Tolerant-Oracle-RDBMS-(part-4)-DNS-Server.html)
+  5. TFTP Server
+  6. Anonymous FTP server and Repository
+  7. Installation of Operating system via kickstart (unattended)
+  8. Installation of Database software via response file (unattended)
+  9. DRBD configuration 
+  10. Simulating a real disaster - Testing fault tolerance
 
 Wait for the posts. Be patient, as time is scarce resource.
 
