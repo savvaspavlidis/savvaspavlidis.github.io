@@ -41,9 +41,14 @@ The bwlimit command is to policy the bandwidth used in order not to saturate the
 Now forthe repository clone, we specifically ommit the 386 option, as we use only the x86_64 architecture.  Also we dont need to download the ISO images, and ofcourse some options (more exist) that also are uneccessary. Lastly, because several sub versions exist in the Centos6, we ommit the previous versions, versions 6.0 thru 6.8 at this point of writing, because now we are at 6.9
 In the installation there must be afterwards a soft link, 6, which points always to the latest version.
 
+Use a mirror near you, that has also the rsync option. Here in Greece, I used the mirror at the University of Crete.
 
 ## Getting the Oracle installation files
 
+Here things can be quite messy for some. I used the 11.2.0.4 version, which is not available on the OTN but on Metalink. You need to have an account there to download that version, or, you may use the 11.2 version which is available on OTN and modify scripts accordingly.
+Due to the nature of these (I mean Metalink), the download is done manually, and the files are placed on the /home/public/anon directory. Do not unzip them, don't do anything else. 
+
+Perhaps some will say, that it would be better, to unzip them, and provide the files via NFS for example. If that pleases you, you may do it. I tried to keep it as simple as possible. But this kind of setup is a viable alternatice with its merits.
 
 <div id="disqus_thread"></div>
 <script>
