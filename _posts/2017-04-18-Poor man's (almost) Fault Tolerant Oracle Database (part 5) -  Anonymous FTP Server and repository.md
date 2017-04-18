@@ -34,11 +34,11 @@ cd /home/public/anon
 chmod -R 0777 centos
 ```
 
-Well, what Imay have to explain here is the rsync command. The --progress and the v option in the -rptv make the command to be verbose, and you may not want to use them. You shouldn't use the if you put the command in a cron job anyway.
+Well, what I may have to explain here is the rsync command. The --progress and the v option in the -rptv make the command to be verbose, and you may not want to use them. You shouldn't use them if you put the command in a cron job anyway.
 
 The bwlimit command is to policy the bandwidth used in order not to saturate the internet connection. Use it according to your specifications or ommit completely if not needed. Remember that the number is in KBs (kilobytes per second).
 
-Now forthe repository clone, we specifically ommit the 386 option, as we use only the x86_64 architecture.  Also we dont need to download the ISO images, and ofcourse some options (more exist) that also are uneccessary. Lastly, because several sub versions exist in the Centos6, we ommit the previous versions, versions 6.0 thru 6.8 at this point of writing, because now we are at 6.9
+Now for the repository clone, we specifically ommit the 386 option, as we use only the x86_64 architecture.  Also we dont need to download the ISO images, and ofcourse some options (more exist) that also are uneccessary. Lastly, because several sub versions exist in the Centos6, we ommit the previous versions, versions 6.0 thru 6.8 at this point of writing, because now we are at 6.9
 In the installation there must be afterwards a soft link, 6, which points always to the latest version.
 
 Use a mirror near you, that has also the rsync option. Here in Greece, I used the mirror at the University of Crete.
