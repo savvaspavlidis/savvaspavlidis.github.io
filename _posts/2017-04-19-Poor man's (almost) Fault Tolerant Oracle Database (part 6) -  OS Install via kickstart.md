@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Poor man's (almost) Fault Tolerant Oracle Database (part 5) -  OS Install via kickstart
+title: Poor man's (almost) Fault Tolerant Oracle Database (part 6) -  OS Install via kickstart
 date: 2017-04-19 09:00:00
 categories: oracle
 comments: true
