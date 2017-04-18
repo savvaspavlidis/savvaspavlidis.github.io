@@ -32,7 +32,7 @@ In order to have an installation that can be applied again and again, I chose to
 
 This would be a series of posts for this project, and most of it is already done, but now waits, to be documented here, and refined somehow.
 
-  1. Introduction
+  1. [Introduction](https://savvaspavlidis.github.io/oracle/2017/02/14/Poor-mans-Fault-Tolerant-Oracle-Database.html)
   2. [Infrastructure](https://savvaspavlidis.github.io/oracle/2017/02/28/A-Poor-mans-(almost)-Fault-Tolerant-Oracle-RDBMS-(part-2)-Infrastructure.html)
   3. [DHCP Server](https://savvaspavlidis.github.io/oracle/2017/04/12/A-Poor-mans-(almost)-Fault-Tolerant-Oracle-RDBMS-(part-3)-DHCP-Server.html)
   4. [DNS Server](https://savvaspavlidis.github.io/oracle/2017/04/12/A-poor-man's-(almost)-Fault-Tolerant-Oracle-RDBMS-(part-4)-DNS-Server.html)
