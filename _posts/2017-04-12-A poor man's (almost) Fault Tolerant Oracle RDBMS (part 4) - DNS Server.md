@@ -9,6 +9,7 @@ disqus_identifier: 0009
 
 ## DNS Server 
 
+In our case, there is a need for DNS Server, as the Oracle installer checks via DNS if the system can be looked up via DNS queries. Although you can skip it, it is not recommended. The DNS server must be authoritative. A simpe authorative solution that accepts requests from the DHCP server would suffice. For a tutorial about installing and configuring a simple DNS Server, you may check this.
 
 
 <div id="disqus_thread"></div>
