@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Poor man's (almost) Fault Tolerant Oracle Database (part 4) - TFT Server
+title: Poor man's (almost) Fault Tolerant Oracle Database (part 4) - TFTP Server
 date: 2017-04-18 15:00:00
 categories: oracle
 comments: true
