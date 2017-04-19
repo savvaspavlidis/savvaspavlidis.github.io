@@ -15,6 +15,47 @@ So we have two servers, oratest1 (the master) and oratest2 (the failover). A lar
 
 The kickstart file has actually two parts. The first part, is like the selection we do to anaconda, for the installation of the Operating system. The second part, the post-installer script, is actually using bash, so we can right in bash (and in other script languanges like perl or python) everything needed to modify the verbatim installation to our specifications.
 
+I will explain the parts of kickstart file, step by step, although, the comments in most cases are good enough.
+```
+######################################################################################
+# Do install, not upgrade
+install
+
+######################################################################################
+# Where is the repository for the installation and the access method, ftp or http.
+# For ftp, it may be anonymous ftp, or with names
+# but then credentials must be given at the command line
+url --url ftp://myanonymousftpserver/centos/6/os/x86_64/
+```
+in place of myanonymousftpserver you should place the name that can be resolved to your anonymous ftp server or its IP address.
+```
+######################################################################################
+# the following are self-explanatory
+lang en_US.UTF-8
+keyboard us
+timezone --utc Europe/Athens
+
+######################################################################################
+# Network confuguration. We may provide directly static address, BUT
+# by using DHCP, we are sure that it will take a free IP in the pool
+# which later will be used as static.... Otherwise we should check
+# the availability of the IP that we will give as static.
+network --noipv6 --onboot=yes --bootproto dhcp --hostname oratest2
+```
+the first three lines need no more explanation. Change according to your needs.
+
+But we have to talk a little more about the network configuration. Because Oracle insists (and I didn't want to circumvent it) the static IP of the server it is installed on and be resolved via DNS too, we need that. So prior to install the OS, we must have included an entry in the DHCP Server, that for the specific MAC address of the machine, it will take a specific IP, and that will also be registered in the DNS Server. Thus, prior to installing, the MAC address should be known. If this is not an option, due to remote nature of installing, we may start the install as it is, and we will retrieve the MAC and it's IP on the DHCP Server, and include it on dhcp.conf file. Later, via the use of scripts, we will change it.
+
+Another approach would be to make directly static here, but then we should update the DNS server likewise. Perhaps I will post this scenario, as an extra, later.
+```
+######################################################################################
+# Enable shadow encrypted password file, md5 and give root a password
+authconfig --enableshadow --enablemd5
+rootpw --iscrypted $6$U/9F9pAN$S5PXDI/z3PNIT3h.42GwtHg1Q5mlmbA6jzsFJ9bwtdJrZ0Yhqhp9WVx4fEKtz/bhNQ/9zdQc7Pz8/LX4/d6/m0
+```
+This is also easy to explain, it is the default password for the administrator account root. Ofcourse it is encrypted. In that case it is the easy 1234 (what else should I have selected? :-) )
+In your case, it is easy to make the initial password to your liking
+
 
 
 
