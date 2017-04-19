@@ -55,11 +55,114 @@ rootpw --iscrypted $6$U/9F9pAN$S5PXDI/z3PNIT3h.42GwtHg1Q5mlmbA6jzsFJ9bwtdJrZ0Yhq
 ```
 This is also easy to explain, it is the default password for the administrator account root. Ofcourse it is encrypted. Because the kickstart file resides in an anonymous ftp server, we don't want everyone to see it, if it was unencrypted. In our case above it is the easy 1234 (what else should I have selected? :-) )
 
-In your case, it is easy to make the initial password to your liking. Just run the following, give the password you want at the prompt, and copy and paste accordingly.
+In your case, it is easy to make the initial password to your liking. Just run the following, give the password you want at the prompt, and copy and paste accordingly to the line above in the kickstart file, replacing mine's.
 ```
 grub-crypt --sha-512
 ```
+next we have 
+```
+######################################################################################
+# Allow specific ports on system, 22 for SSH and 1521 for ORACLE
+firewall --enabled --port 22:tcp --port 1521:tcp
 
+######################################################################################
+# ORACLE is not so well behaved with SELinux, all tutorials say to have it
+# either permissive or disabled at all. Someday I will work on it...
+selinux --disabled
+
+######################################################################################
+# define the bootloader options
+bootloader --location=mbr --driveorder=sda --append="crashkernel=auth "
+
+```
+Some may cough up with my selinux configuration. You may use also permissive. I haven't tried it yet with enforcing with such a configuration, I mean with DRBD clustering and Oracle. 
+
+```
+######################################################################################
+# SERVICES
+#
+# A miniman system like this, loads some services that are not necessary
+# for an Oracle RDBMS (strictly an Oracle RDBMS Server, and nothing else!)
+# Thus, disable them. Enable sendmail instead of postfix, just because I
+# know it well and does the job allright. Change to your liking.
+services --disabled auditd,lvm2-monitor,ip6tables,portreserve,cpuspeed,cups,netfs,abrt-ccpp,abrtd,kdump,postfix
+services --enabled sendmail
+
+######################################################################################
+# DISK PARTITIONING
+#
+# We assume a good server, thus a hardware raid card, best with RAID-10
+# Linux will see one (or perhaps more) disks that are already mirrored.
+# logical disks would be managed by hardware raid
+zerombr yes
+clearpart --all --initlabel --drives=sda,sdb
+part /boot      --fstype=ext4   --size=500                      --asprimary --ondisk=sda
+part swap       --fstype=swap   --size=4096                     --asprimary --ondisk=sda
+part /          --fstype=ext4   --size=18000                    --asprimary --ondisk=sda
+
+
+```
+
+as for the services, because I have a very good experience with sendmail, I still use this, than postfix. I'm only human, don't put the blame on me!
+Several services that are enabled by default, and we don't need them, we disable them right from the start here.
+
+As for the disk partitioning. As I said, in my installment there are two disks, but you may have one or whatever scenario fits your case. We just need to make the right modifications. In this case, I have two disks, initialize both, so no partitioning will be on them. Afterwards, partition the first with a simple partitioning scheme, and enforce all of the partitions to be on disk sda. this is crucial, because the partition manager may try to use both 
+
+```
+######################################################################################
+# PACKAGES
+#
+# The minimum required for an Oracle Database Server
+# Normally, for the installation of an Oracle Database,
+# we need also a graphics desktop, but only for the installation
+# (and perhaps some management tools). We can avoid that, and
+# not install software just for the installation of the Database,
+# because there is a method which a GUI desktop is not required.
+%packages
+@Server Platform
+@Development Tools
+binutils
+compat-libstdc++-33
+compat-libstdc++-33.i686
+ksh
+elfutils-libelf
+elfutils-libelf-devel
+glibc
+glibc-common
+glibc-devel
+gcc
+gcc-c++
+libaio
+libaio.i686
+libaio-devel
+libaio-devel.i686
+libgcc
+libstdc++
+libstdc++.i686
+libstdc++-devel
+libstdc++-devel.i686
+make
+sysstat
+unixODBC
+unixODBC-devel
+sendmail
+sendmail-cf
+yum-plugin-priorities
+lshw
+libxslt
+libxslt-devel
+compat-libcap1
+ftp
+iptraf
+-postfix
+
+
+# Make sure we reboot into the new system when we are finished
+reboot
+```
+here we select which packages should be installed. We can select installement of groups and individual packages, plus, which packages we do not to be installed at all.
+
+Finally, with the reboot, it says that initial configuration for the install, the first part, is finished. and next in kickstart file is the postinstaller phase, after the initial configuration. Here, we can script and do whatever we want.
 
 
 
