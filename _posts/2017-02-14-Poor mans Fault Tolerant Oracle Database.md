@@ -38,7 +38,7 @@ This would be a series of posts for this project, and most of it is already done
   4. [DNS Server](https://savvaspavlidis.github.io/oracle/2017/04/12/A-poor-man's-(almost)-Fault-Tolerant-Oracle-RDBMS-(part-4)-DNS-Server.html)
   5. [TFTP Server](https://savvaspavlidis.github.io/oracle/2017/04/18/Poor-man's-(almost)-Fault-Tolerant-Oracle-Database-(part-4)-TFTP-Server.html)
   6. [Anonymous FTP server and Repository](https://savvaspavlidis.github.io/oracle/2017/04/18/Poor-man's-(almost)-Fault-Tolerant-Oracle-Database-(part-5)-Anonymous-FTP-Server-and-repository.html)
-  7. Installation of Operating system via kickstart (unattended)
+  7. [Installation of Operating system via kickstart (unattended)](https://savvaspavlidis.github.io/oracle/2017/04/19/Poor-man's-(almost)-Fault-Tolerant-Oracle-Database-(part-6)-OS-Install-via-kickstart.html)
   8. Installation of Database software via response file (unattended)
   9. DRBD configuration 
   10. Simulating a real disaster - Testing fault tolerance
