@@ -156,15 +156,73 @@ ftp
 iptraf
 -postfix
 
-
 # Make sure we reboot into the new system when we are finished
 reboot
+
+%pre
 ```
-here we select which packages should be installed. We can select installement of groups and individual packages, plus, which packages we do not to be installed at all.
+here we select which packages should be installed. We can select installement of group of packages (thos with @ in front) and individual packages, plus, which packages we do not to be installed at all (those with the minus in front).
 
-Finally, with the reboot, it says that initial configuration for the install, the first part, is finished. and next in kickstart file is the postinstaller phase, after the initial configuration. Here, we can script and do whatever we want.
+Finally, with the %pre, it says that initial configuration for the install, the first part, is finished. and next in kickstart file is the postinstaller phase, after the initial configuration. Here, we can script and do whatever we want.
+
+Now the postinstaller phase begins.
+```
+######################################################################################
+######################################################################################
+# Upon completion of the installation, run the script below for
+# further customization
+# http_proxy is used not only for the changes, but also as for the rpm/wget which
+# it uses it. If not named like that, it cannot be used by rpm/wget
+
+%post --log=/root/install-post.log
+(
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export PATH
+export ANONFTPSERVER=anonftpserver.example.com
+export FTPREPOSITORY=ftp://$ANONFTPSERVER
+export http_proxy=http://proxy.example.com:8080
 
 
+######################################################################################
+# REPOS
+#
+# Change repos, Install extra repos, update system to latest
+# change repos to use the local ftp repository for installation/update
+# change to use proxy for faster downloading
+echo "Updating YUM Repositories"
+cd /etc/yum.repos.d
+perl -npe '/mirrorlist=.*repo=os/ && s/^/#/'            -i CentOS-Base.repo
+perl -npe '/mirrorlist=.*repo=updates/ && s/^/#/'       -i CentOS-Base.repo
+perl -npe '/mirrorlist=.*repo=extras/ && s/^/#/'        -i CentOS-Base.repo
+perl -npe '/^#baseurl=.*\/os\// && s/^#//'              -i CentOS-Base.repo
+perl -npe '/^#baseurl=.*\/updates\// && s/^#//'         -i CentOS-Base.repo
+perl -npe '/^#baseurl=.*\/extras\// && s/^#//'          -i CentOS-Base.repo
+perl -npe '/^baseurl/ && s/http:\/\/mirror.centos.org/$ENV{FTPREPOSITORY}/' -i CentOS-Base.repo
+yum -y update
+
+perl -npe '/=centos-release/ && s/=centos-release/=centos-release\nproxy=$ENV{http_proxy}/' -i /etc/yum.conf
+
+rpm --import http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+yum -y install epel-release.noarch
+
+# instal ELRepo repository for DBRD
+rpm --import https://www.elrepo.org/RPM-GPG-KEY-elrepo.org
+rpm -Uvh http://www.elrepo.org/elrepo-release-6-6.el6.elrepo.noarch.rpm
+# install the DRBD
+yum -y install kmod-drbd84 drbd84-utils
+
+# change repos to use priorities in order to avoid conflicts
+perl -npe '/gpgcheck=1/ && s/gpgcheck=1/gpgcheck=1\npriority=10/' -i Centos-Base.repo
+perl -npe '/gpgcheck=1/ && s/gpgcheck=1/gpgcheck=1\npriority=20/' -i epel.repo
+perl -npe '/gpgcheck=1/ && s/gpgcheck=1/gpgcheck=1\npriority=30/' -i elrepo.repo
+```
+Firstly we define some enviromental variables that would be used throughout the postinstaller phase. You should place your anonymous ftp server in the place of anonftpserver.example.com or its IP. If you are behind a proxy for connection to internet, the http_proxy environment variable is needed, otherwise, you should delete it. If you are using a proxy, replace accordingly with your proxy server the proxy.example.com and the port if needed.
+
+In the first part of the postinstaller phase we make the needed changes to repos, so an update can follow to the latest software (remember, the install previously does not install the updates after the base of the specific version). We make the changes so Centos to use the local (and I pressume always synchronised and updated) repository. Because we will include some other repositories too, the yum-priorities plugin is required in order to avoid conflicts of the same software available from different repositories, and possibly in different versions. 
+
+Now in my case, I have to use a proxy, so there is a command that places the proxy configuration in /etc/yum.conf If you don't use a proxy, ommit it. 
+
+The very known epel repository is installed and also the ElREPO which has the DRBD tools, and finally the priorities are given (the lower the number, the higher the priority).
 
 
 
