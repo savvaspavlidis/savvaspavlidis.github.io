@@ -53,8 +53,13 @@ Another approach would be to make directly static here, but then we should updat
 authconfig --enableshadow --enablemd5
 rootpw --iscrypted $6$U/9F9pAN$S5PXDI/z3PNIT3h.42GwtHg1Q5mlmbA6jzsFJ9bwtdJrZ0Yhqhp9WVx4fEKtz/bhNQ/9zdQc7Pz8/LX4/d6/m0
 ```
-This is also easy to explain, it is the default password for the administrator account root. Ofcourse it is encrypted. In that case it is the easy 1234 (what else should I have selected? :-) )
-In your case, it is easy to make the initial password to your liking
+This is also easy to explain, it is the default password for the administrator account root. Ofcourse it is encrypted. Because the kickstart file resides in an anonymous ftp server, we don't want everyone to see it, if it was unencrypted. In our case above it is the easy 1234 (what else should I have selected? :-) )
+
+In your case, it is easy to make the initial password to your liking. Just run the following, give the password you want at the prompt, and copy and paste accordingly.
+```
+grub-crypt --sha-512
+```
+
 
 
 
