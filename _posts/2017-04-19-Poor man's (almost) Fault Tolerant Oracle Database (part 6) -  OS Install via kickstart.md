@@ -263,7 +263,38 @@ service network restart
 ```
 This part of the postinstaller phase handles the networking. Makes the network connection as static and places the corresponding IP as static. Plus it informs several configuration files. with this, the NetworkManager service is not required and we can work with the much simpler network service. the only thing needed is the hostname that we want this system to have.
 
+```
+# Sendmail configuration
+cd /etc/mail
 
+cat <<EOF >>local-host-names
+localhost
+localhost.localdomain
+$HOSTNAMESHORT
+$HOSTNAME
+EOF
+
+
+cat <<EOF >>mailertable
+.       esmtp:mailserver.example.com
+EOF
+make mailertable.db
+
+
+perl -npe '/^dnl MASQUERADE/ && s/^dnl MASQUERADE/MASQUERADE/' -i sendmail.mc
+
+echo "\nSendmail.MC"
+cat /etc/mail/sendmail.mc
+echo "END OF Sendmail.MC\n"
+echo "HOSTNAME:" $HOSTNAME
+
+perl -npe '/^dnl MASQUERADE/ && s/^dnl MASQUERADE/MASQUERADE/' -i sendmail.mc
+export MYHOSTNAME=$HOSTNAME
+perl -npe '/^MASQUERADE_AS/ && s/mydomain\.com/$ENV{MYHOSTNAME}/' -i sendmail.mc
+
+make sendmail.cf
+```
+The part above handles the configuration of sendmail. In your case, if you do not use sendmail, ommit it. I pressume another mailserver is used a mail server gateway (smarthost). Instead of modifying the sendmail.mc with the smarthost directive, I do it on the mailertable. 
 
 <div id="disqus_thread"></div>
 <script>
