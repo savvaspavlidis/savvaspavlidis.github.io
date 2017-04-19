@@ -222,8 +222,46 @@ In the first part of the postinstaller phase we make the needed changes to repos
 
 Now in my case, I have to use a proxy, so there is a command that places the proxy configuration in /etc/yum.conf If you don't use a proxy, ommit it. 
 
-The very known epel repository is installed and also the ElREPO which has the DRBD tools, and finally the priorities are given (the lower the number, the higher the priority).
+The very known epel repository is installed and also the ELREPO which has the DRBD tools, and finally the priorities are given (the lower the number, the higher the priority).
+```
+# NETWORK
+#
+# Make static Networking
+echo "Converting DHCP scope to static IP address"
+echo "HOSTNAME already is: " `hostname`
+HOSTNAME=oratest2.example.com
+HOSTNAMESHORT=`echo $HOSTNAME | cut -f1 --delimiter='.'`
 
+DEVICE=`route -n|grep '^0.0.0.0'|awk '{print $8}'`
+IPADDR=`ifconfig $DEVICE|grep 'inet addr:'|awk '{sub(/addr:/,""); print $2}'`
+NETMASK=`ifconfig $DEVICE|grep 'Mask'|awk '{sub(/Mask:/,""); print $4}'`
+NETWORK=`ipcalc $IPADDR -n $NETMASK|awk -F= '{print $2}'`
+GATEWAY=`route -n|grep '^0.0.0.0'|awk '{print $2}'`
+HWADDR=`ifconfig $DEVICE|grep 'HWaddr'|awk '{print $5}'`
+
+cat <<EOF >/etc/sysconfig/network
+NETWORKING=yes
+HOSTNAME=$HOSTNAME
+GATEWAY=$GATEWAY
+EOF
+
+cat <<EOF >/etc/sysconfig/network-scripts/ifcfg-$DEVICE
+DEVICE=$DEVICE
+BOOTPROTO=static
+IPADDR=$IPADDR
+NETMASK=$NETMASK
+ONBOOT=yes
+HWADDR=$HWADDR
+EOF
+
+
+cat <<EOF >>/etc/hosts
+$IPADDR         $HOSTNAME $HOSTNAMESHORT
+EOF
+
+service network restart
+```
+This part of the postinstaller phase handles the networking. Makes the network connection as static and places the corresponding IP as static. Plus it informs several configuration files. with this, the NetworkManager service is not required and we can work with the much simpler network service. the only thing needed is the hostname that we want this system to have.
 
 
 
