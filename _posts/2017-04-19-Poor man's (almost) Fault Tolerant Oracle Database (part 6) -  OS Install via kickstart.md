@@ -491,7 +491,7 @@ EOF
 . /home/oracle/.bashrc
 
 ```
-We setup the user oracle environmental variables, of where to be located the database and the files. In Oracle home is where the installation will be (we can have multiple installations of different versions), and these ara stores in .bashrc so they will be loaded on oracle run.
+We setup the user oracle environmental variables, of where to be located the database and the files. In Oracle home is where the installation will be (we can have multiple installations of different versions), and these are stored in .bashrc so they will be loaded on oracle run.
 
 So far the installation on bot systems is absolutely the same.
 
