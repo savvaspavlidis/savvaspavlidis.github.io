@@ -295,6 +295,89 @@ perl -npe '/^MASQUERADE_AS/ && s/mydomain\.com/$ENV{MYHOSTNAME}/' -i sendmail.mc
 make sendmail.cf
 ```
 The part above handles the configuration of sendmail. In your case, if you do not use sendmail, ommit it. I pressume another mailserver is used a mail server gateway (smarthost). Instead of modifying the sendmail.mc with the smarthost directive, I do it on the mailertable. 
+```
+########################################################################
+# DRBD Config
+
+if [ ! -d /etc/drbd.d ]; then
+        mkdir /etc/drbd.d
+fi
+
+cd /etc/drbd.d
+cat <<EOF >disk1.res
+resource disk1 {
+        startup {
+                wfc-timeout 30;
+                outdated-wfc-timeout 20;
+                degr-wfc-timeout 30;
+        }
+
+        net {
+                cram-hmac-alg sha1;
+                shared-secret sync_disk;
+        }
+
+        syncer {
+                rate 100M;
+                verify-alg sha1;
+        }
+
+        on oratest1.example.com {
+                device /dev/drbd1;
+                disk /dev/sdb1;
+                address 10.1.1.129:7789;
+                meta-disk internal;
+        }
+
+        on oratest2.example.com {
+                device /dev/drbd1;
+                disk /dev/sdb1;
+                address 10.1.1.130:7789;
+                meta-disk internal;
+        }
+}
+EOF
+```
+At this point, we make the configuration files for DRBD, although it is not fully configured still. Remember, we will use the second disk, sdb, and its first partition, for network mirroring, and this is named as disk1 in DRBD file above. This means that on the first system, the master, we will access via the /dev/dbrb1 device, which will be mirrored to the failover system. The configuration files are exactly the same on both systems, and that makes it easier. It is via the administrator commands that we specifically assign which one will be the master, and which the slave. I would like to mention the inclusion of the static addresses of both systems here, and is another point, that both system should have preassigned static addresses prior to installation, and these addresses should be applied to the kickstart configuration file.
+```
+########################################################################
+# Crontab the check of time each hour
+if [ ! -d /var/spool/cron ]; then
+        mkdir /var/spool/cron
+fi
+
+cat <<EOF >/var/spool/cron/root
+1 * * * * /usr/sbin/ntpdate -s time.windows.com
+EOF
+
+ntpdate -s time.windows.com
+```
+For the proper operation of the DRBD there must be exact timing, and we can't rely on the clock of the system and a manual set. Thus we need to enable the automatic update of time via use of ntp. Here it is assumed that there is the capability to access the Internet for the time protocol directly. Other options would be to have a time server inside the lan.
+```
+########################################################################
+# Make the partition available.
+# we do it here, and not with the format of kickstart, because we don't
+# want to have it automatically included in fstab. But must be done prior
+# to running the drbd commands
+
+(
+        echo o
+        echo n
+        echo p
+        echo 1
+        echo
+        echo
+        echo w
+) | fdisk /dev/sdb
+
+yes yes | /sbin/drbdadm create-md disk1
+/etc/init.d/drbd start
+chkconfig drbd on
+/sbin/drbdadm secondary disk1
+```
+As I said earlier, we did not make the partition via the preinstall phase, because it is included in fstab that way. So we do it here, directly using fdisk. Then the partition is prepared, and the DRBD service is started and the disk is marked as the secondary (slave). Remember, firstly we install the secondary (slave) system. We make the service startable upon boot.
+
+
 
 <div id="disqus_thread"></div>
 <script>
