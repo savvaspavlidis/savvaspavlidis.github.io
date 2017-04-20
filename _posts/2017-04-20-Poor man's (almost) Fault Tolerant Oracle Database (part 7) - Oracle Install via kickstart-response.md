@@ -2,7 +2,7 @@
 ---
 layout: default
 title: Poor man's (almost) Fault Tolerant Oracle Database (part 7) -  Oracle Install via kickstart-response
-date: 2017-04-19 09:00:00
+date: 2017-04-20 09:00:00
 categories: oracle
 comments: true
 disqus_identifier: 0013
