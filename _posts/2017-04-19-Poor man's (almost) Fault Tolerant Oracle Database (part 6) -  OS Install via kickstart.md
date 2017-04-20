@@ -560,7 +560,6 @@ fi
 /sbin/sysctl -p
 ```
 This is quite a moutfull. The above script does all the job for us, finds out how much memory we have, and configures accordingly the sysctl parameters. Note that for systems, with more than 16GB of RAM, is advised to use huge tables and the script does so.
-
 ```
 groupadd oinstall
 groupadd dba
@@ -576,9 +575,45 @@ EOF
 cat <<EOF >>/etc/pam.d/login
 session required pam_limits.so
 EOF
-```
+``` 
 We need also the aforementioned groups and user for the oracle installation, plus to modify the limits for fliles and processes.
+```
+########################################################################
+# Oracle File Architecture.
+# Recomended although you may change it to your liking
+# https://docs.oracle.com/cd/B28359_01/install.111/b32002/app_ofa.htm#LADBI446
+# CHANGE HERE ORACLE SPECIFIC VARIABLES LIKE SID
 
+
+cat <<EOF >>/home/oracle/.bashrc
+export TMP=/tmp
+export TMPDIR=$TMP
+export ORACLE_HOSTNAME=$HOSTNAME
+export ORACLE_BASE=/u01/app/oracle
+export ORACLE_HOME=\$ORACLE_BASE/product/11.2.0/db_1
+export ORACLE_SID=ORCL
+export NLS_LANG=AMERICAN_AMERICA.EL8MSWIN1253
+export PATH=$ORACLE_HOME/bin:/usr/sbin:$PATH
+export INVENTORY_LOCATION=/home/oracle/oraInventory
+
+# export CLASSPATH=$ORACLE_HOME/jdk/jre:$ORACLE_HOME/jlib:$ORACLE_HOME/rdbms/jlib
+
+if [ "\$USER" == “oracle” ]; then
+        if [ \$SHELL = “/bin/ksh” ]; then
+                ulimit –p 16384
+                ulimit –n 65536
+        else
+                ulimit –u 16384 –n 65536
+        fi
+fi
+umask 022
+EOF
+. /home/oracle/.bashrc
+
+```
+We setup the user oracle environmental variables, of where to be located the database and the files. In Oracle home is where the installation will be (we can have multiple installations of different versions), and these ara stores in .bashrc so they will be loaded on oracle run.
+
+So far the installation on bot systems is absolutely the same.
 
 
 <div id="disqus_thread"></div>
