@@ -1,7 +1,6 @@
-
 ---
 layout: default
-title: Poor man's (almost) Fault Tolerant Oracle Database (part 7) -  Oracle Install
+title: Poor man's (almost) Fault Tolerant Oracle Database (part 6) -  Oracle Install
 date: 2017-04-20 09:00:00
 categories: oracle
 comments: true
