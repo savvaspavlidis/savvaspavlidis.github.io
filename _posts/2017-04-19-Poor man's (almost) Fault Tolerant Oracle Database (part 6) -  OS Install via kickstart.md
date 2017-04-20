@@ -377,6 +377,208 @@ chkconfig drbd on
 ```
 As I said earlier, we did not make the partition via the preinstall phase, because it is included in fstab that way. So we do it here, directly using fdisk. Then the partition is prepared, and the DRBD service is started and the disk is marked as the secondary (slave). Remember, firstly we install the secondary (slave) system. We make the service startable upon boot.
 
+Last but not least, we must set up both systems, for Oracle, and I mean the configuration of system variables and user under which Oracle will run. The first part will be to setup the sysctl parameters about memory, changes that are needed by Oracle.
+```
+########################################################################
+# ORACLE
+
+
+# script to calculate oracle kernel memory parameters
+# Latest one, if Huge pages are required, it displays the apropriate kernel parameter
+#
+# In case of virtualisation, dmidecode does not report correctly always the memory size
+memory=$(lshw -quiet -class memory -short | grep System | awk '{print $3}')
+memory_type=$(echo $memory | grep -o '[a-Z]\+')
+memory_num=$(echo $memory | grep -o '[0-9]\+')
+if [ "$memory_type" == "GiB" ]; then
+        Total_Memory_M=$(echo $memory_num*1024 | bc)
+        Total_Memory_G=$memory_num
+else
+        Total_Memory_M=$memory_num
+        Total_Memory_G=$(echo $memory_num/1024 | bc)
+fi
+
+Page_Size=$(getconf PAGE_SIZE)
+shmmax=$(echo $Total_Memory_M *1024*1024/2 | bc)
+shmall=$(echo \($Total_Memory_M -2048\)*1024*1024/$Page_Size | bc)
+
+
+cat <<EOF >>/etc/sysctl.conf
+net.ipv4.ip_local_port_range = 9000 65500
+fs.file-max = 6815744
+kernel.shmall = $shmall
+kernel.shmmax = $shmmax
+kernel.shmmni = $Page_Size
+kernel.sem = 250 32000 100 128
+net.core.rmem_default=262144
+net.core.wmem_default=262144
+net.core.rmem_max=4194304
+net.core.wmem_max=1048576
+fs.aio-max-nr = 1048576
+EOF
+
+# should I implement Huge pages? yes if memory is more than 8GB)
+SGA_Memory_Size_M=$(echo $Total_Memory_M /2 | bc)
+if (( $SGA_Memory_Size_M>8192 )); then
+        # Find out the HugePage size
+        HPG_SZ=`grep Hugepagesize /proc/meminfo | awk {'print $2'}`
+        # Start from 1 pages to be on the safe side and guarantee 1 free HugePage
+        NUM_PG=1
+        # Cumulative number of pages required to handle the running shared memory segments
+        for SEG_BYTES in `ipcs -m | awk {'print $5'} | grep "[0-9][0-9]*"`
+        do
+                MIN_PG=`echo "$SEG_BYTES/($HPG_SZ*1024)" | bc -q`
+                if [ $MIN_PG -gt 0 ]; then
+                        NUM_PG=`echo "$NUM_PG+$MIN_PG+1" | bc -q`
+                fi
+        done
+
+cat <<EOF >>/etc/sysctl.conf
+vm.nr_hugepages=$NUM_PG
+EOF
+
+fi
+########################################################################
+# ORACLE
+
+
+# script to calculate oracle kernel memory parameters
+# Latest one, if Huge pages are required, it displays the apropriate kernel parameter
+#
+# In case of virtualisation, dmidecode does not report correctly always the memory size
+memory=$(lshw -quiet -class memory -short | grep System | awk '{print $3}')
+memory_type=$(echo $memory | grep -o '[a-Z]\+')
+memory_num=$(echo $memory | grep -o '[0-9]\+')
+if [ "$memory_type" == "GiB" ]; then
+        Total_Memory_M=$(echo $memory_num*1024 | bc)
+        Total_Memory_G=$memory_num
+else
+        Total_Memory_M=$memory_num
+        Total_Memory_G=$(echo $memory_num/1024 | bc)
+fi
+
+Page_Size=$(getconf PAGE_SIZE)
+shmmax=$(echo $Total_Memory_M *1024*1024/2 | bc)
+shmall=$(echo \($Total_Memory_M -2048\)*1024*1024/$Page_Size | bc)
+
+
+cat <<EOF >>/etc/sysctl.conf
+net.ipv4.ip_local_port_range = 9000 65500
+fs.file-max = 6815744
+kernel.shmall = $shmall
+kernel.shmmax = $shmmax
+kernel.shmmni = $Page_Size
+kernel.sem = 250 32000 100 128
+net.core.rmem_default=262144
+net.core.wmem_default=262144
+net.core.rmem_max=4194304
+net.core.wmem_max=1048576
+fs.aio-max-nr = 1048576
+EOF
+
+# should I implement Huge pages? yes if memory is more than 8GB)
+SGA_Memory_Size_M=$(echo $Total_Memory_M /2 | bc)
+if (( $SGA_Memory_Size_M>8192 )); then
+        # Find out the HugePage size
+        HPG_SZ=`grep Hugepagesize /proc/meminfo | awk {'print $2'}`
+        # Start from 1 pages to be on the safe side and guarantee 1 free HugePage
+        NUM_PG=1
+        # Cumulative number of pages required to handle the running shared memory segments
+        for SEG_BYTES in `ipcs -m | awk {'print $5'} | grep "[0-9][0-9]*"`
+        do
+                MIN_PG=`echo "$SEG_BYTES/($HPG_SZ*1024)" | bc -q`
+                if [ $MIN_PG -gt 0 ]; then
+                        NUM_PG=`echo "$NUM_PG+$MIN_PG+1" | bc -q`
+                fi
+        done
+
+cat <<EOF >>/etc/sysctl.conf
+vm.nr_hugepages=$NUM_PG
+EOF
+
+fi
+########################################################################
+# ORACLE
+
+
+# script to calculate oracle kernel memory parameters
+# Latest one, if Huge pages are required, it displays the apropriate kernel parameter
+#
+# In case of virtualisation, dmidecode does not report correctly always the memory size
+memory=$(lshw -quiet -class memory -short | grep System | awk '{print $3}')
+memory_type=$(echo $memory | grep -o '[a-Z]\+')
+memory_num=$(echo $memory | grep -o '[0-9]\+')
+if [ "$memory_type" == "GiB" ]; then
+        Total_Memory_M=$(echo $memory_num*1024 | bc)
+        Total_Memory_G=$memory_num
+else
+        Total_Memory_M=$memory_num
+        Total_Memory_G=$(echo $memory_num/1024 | bc)
+fi
+
+Page_Size=$(getconf PAGE_SIZE)
+shmmax=$(echo $Total_Memory_M *1024*1024/2 | bc)
+shmall=$(echo \($Total_Memory_M -2048\)*1024*1024/$Page_Size | bc)
+
+
+cat <<EOF >>/etc/sysctl.conf
+net.ipv4.ip_local_port_range = 9000 65500
+fs.file-max = 6815744
+kernel.shmall = $shmall
+kernel.shmmax = $shmmax
+kernel.shmmni = $Page_Size
+kernel.sem = 250 32000 100 128
+net.core.rmem_default=262144
+net.core.wmem_default=262144
+net.core.rmem_max=4194304
+net.core.wmem_max=1048576
+fs.aio-max-nr = 1048576
+EOF
+
+# should I implement Huge pages? yes if memory is more than 8GB)
+SGA_Memory_Size_M=$(echo $Total_Memory_M /2 | bc)
+if (( $SGA_Memory_Size_M>8192 )); then
+        # Find out the HugePage size
+        HPG_SZ=`grep Hugepagesize /proc/meminfo | awk {'print $2'}`
+        # Start from 1 pages to be on the safe side and guarantee 1 free HugePage
+        NUM_PG=1
+        # Cumulative number of pages required to handle the running shared memory segments
+        for SEG_BYTES in `ipcs -m | awk {'print $5'} | grep "[0-9][0-9]*"`
+        do
+                MIN_PG=`echo "$SEG_BYTES/($HPG_SZ*1024)" | bc -q`
+                if [ $MIN_PG -gt 0 ]; then
+                        NUM_PG=`echo "$NUM_PG+$MIN_PG+1" | bc -q`
+                fi
+        done
+
+cat <<EOF >>/etc/sysctl.conf
+vm.nr_hugepages=$NUM_PG
+EOF
+
+fi
+
+/sbin/sysctl -p
+```
+This is quite a moutfull. The above script does all the job for us, finds out how much memory we have, and configures accordingly the sysctl parameters. Note that for systems, with more than 16GB of RAM, is advised to use huge tables and the script does so.
+
+```
+groupadd oinstall
+groupadd dba
+useradd -g oinstall -G dba -m -d /home/oracle oracle
+
+cat <<EOF >>/etc/security/limits.conf
+oracle soft nproc 2047
+oracle hard nproc 16384
+oracle soft nofile 1024
+oracle hard nofile 65536
+EOF
+
+cat <<EOF >>/etc/pam.d/login
+session required pam_limits.so
+EOF
+```
+We need also the aforementioned groups and user for the oracle installation, plus to modify the limits for fliles and processes.
+
 
 
 <div id="disqus_thread"></div>
