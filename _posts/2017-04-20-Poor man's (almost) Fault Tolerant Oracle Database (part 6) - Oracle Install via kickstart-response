@@ -1,0 +1,17 @@
+
+---
+layout: default
+title: Poor man's (almost) Fault Tolerant Oracle Database (part 6) -  Oracle Install via kickstart-response
+date: 2017-04-19 09:00:00
+categories: oracle
+comments: true
+disqus_identifier: 0013
+---
+
+## Enabling DRBD
+There is one difference from the previous chapter explaining the kickstart file. In the master there is no declaration of the DRBD disk as secondary, but the opposite. we declare it as a primary. And afterwards we make a file system on it, and proceed with the installation of Oracle software, which will be replicated either now, or afterwards (preferably the latter). It is assumed that the secondary slave (failover) system has already run the installation and is already up.
+
+instead of the command
+```
+/sbin/drbdadm secondary disk1
+```
